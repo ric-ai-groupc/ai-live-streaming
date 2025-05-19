@@ -1,0 +1,492 @@
+/* variables.css */
+:root {
+  --primary-color: #007AFF;
+  --secondary-color: #F2F2F7;
+  --background-color: #FFFFFF;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --border-radius: 10px;
+  --padding: 20px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* main.css */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-image: url('/src/assets/images/background.jpg'); /* 使用钻石背景图片 */
+  background-size: cover; /* 确保背景图片铺满整个页面 */
+  background-repeat: no-repeat;
+  color: #333333;
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* main.css */
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px; /* 设置最大宽度 */
+  box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--padding);
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--padding);
+}
+
+nav button {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.selection-container {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  text-align: center;
+}
+
+.selection-container h2 {
+  margin-bottom: var(--padding);
+}
+
+.avatars {
+  display: flex;
+  justify-content: center;
+  gap: var(--padding);
+}
+
+.avatars div {
+  cursor: pointer;
+  text-align: center;
+}
+
+.avatars img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.avatars img:hover {
+  transform: scale(1.1);
+}
+
+.chat-box {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  margin-top: auto;
+}
+
+.chat-box .messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: var(--padding);
+}
+
+.chat-box .messages div {
+  margin-bottom: 10px;
+}
+
+.chat-box .messages .system {
+  color: #999999;
+}
+
+.chat-box .messages .gift {
+  color: #FF9500;
+}
+
+.chat-box .messages .product {
+  color: #15803D;
+}
+
+.chat-box input {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  border: 1px solid #E5E5EA;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+}
+
+.chat-box button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+}
+
+.product-card {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  margin-bottom: var(--padding);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+  cursor: pointer;
+}
+
+.product-card .colors {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: var(--padding);
+}
+
+.product-card .color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.product-card .btn-detail, .product-card .btn-buy {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.product-card .btn-buy {
+  background-color: #34D399;
+}
+
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  text-align: center;
+  width: 300px;
+}
+
+.modal-content h2 {
+  margin-bottom: var(--padding);
+}
+
+.modal-content button, .modal-content form button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: var(--padding);
+}
+
+.modal-content form input {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  border: 1px solid #E5E5EA;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+}
+/* variables.css */
+:root {
+  --primary-color: #007AFF;
+  --secondary-color: #F2F2F7;
+  --background-color: #FFFFFF;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --border-radius: 10px;
+  --padding: 20px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* main.css */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: #333333;
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.register-container {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  margin: auto;
+  width: 300px;
+  text-align: center;
+}
+
+.register-container h2 {
+  margin-bottom: var(--padding);
+}
+
+.register-container input,
+.register-container select {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  border: 1px solid #E5E5EA;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+}
+
+.register-container button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: var(--padding);
+}
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: #333333;
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--padding);
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--padding);
+}
+
+nav button {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.selection-container {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  text-align: center;
+}
+
+.selection-container h2 {
+  margin-bottom: var(--padding);
+}
+
+.avatars {
+  display: flex;
+  justify-content: center;
+  gap: var(--padding);
+}
+
+.avatars div {
+  cursor: pointer;
+  text-align: center;
+}
+
+.avatars img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.avatars img:hover {
+  transform: scale(1.1);
+}
+
+.chat-box {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  margin-top: auto;
+}
+
+.chat-box .messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: var(--padding);
+}
+
+.chat-box .messages div {
+  margin-bottom: 10px;
+}
+
+.chat-box .messages .system {
+  color: #999999;
+}
+
+.chat-box .messages .gift {
+  color: #FF9500;
+}
+
+.chat-box .messages .product {
+  color: #15803D;
+}
+
+.chat-box input {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  border: 1px solid #E5E5EA;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+}
+
+.chat-box button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+}
+
+.product-card {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  margin-bottom: var(--padding);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+  cursor: pointer;
+}
+
+.product-card .colors {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: var(--padding);
+}
+
+.product-card .color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.product-card .btn-detail, .product-card .btn-buy {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.product-card .btn-buy {
+  background-color: #34D399;
+}
+
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding);
+  text-align: center;
+  width: 300px;
+}
+
+.modal-content h2 {
+  margin-bottom: var(--padding);
+}
+
+.modal-content button, .modal-content form button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: var(--padding);
+}
+
+.modal-content form input {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  border: 1px solid #E5E5EA;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--padding);
+}
+
+/* 新增样式 */
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.live-stream-player {
+  flex: 3;
+}
+
+.chat-box-container {
+  flex: 1;
+  margin-left: var(--padding);
+}
