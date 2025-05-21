@@ -1,33 +1,37 @@
 <template>
   <div class="selection-container" aria-labelledby="selection-heading">
-    <h2 id="selection-heading">请选择你的数字人</h2>
-    <div class="avatars">
+    <h2 id="selection-heading" v-if="!selectedPerson">请选择你的数字人</h2>
+    <div class="avatars" v-if="!selectedPerson">
       <div
-        @click="selectDigitalPerson('王博')"
+        @click="selectDigitalPerson(person)"
         role="button"
         tabindex="0"
-        aria-label="选择王博"
-        :class="{ 'selected': selectedPerson === '王博' }"
+        :aria-label="'选择' + person.name"
+        :class="{ 'selected': selectedPerson === person }"
+        v-for="person in digitalPeople"
+        :key="person.name"
       >
-        <img :src="require('@/assets/images/wangbo.jpg')" alt="王博头像">
-        <p>👋 你好呀~</p>
+        <img :src="person.avatar" :alt="person.name + '头像'" />
+        <p>{{ person.greeting }}</p>
       </div>
-      <div
-        @click="selectDigitalPerson('王凌')"
-        role="button"
-        tabindex="0"
-        aria-label="选择王凌"
-        :class="{ 'selected': selectedPerson === '王凌' }"
+    </div>
+    <div v-else class="single-avatar">
+      <img :src="selectedPerson.avatar" :alt="selectedPerson.name + '头像'" class="zoomed-avatar" />
+      <p>{{ selectedPerson.greeting }}</p>
+      <button
+        @click="deselectDigitalPerson"
+        aria-label="返回选择列表"
+        class="back-button"
       >
-        <img :src="require('@/assets/images/wanglin.jpeg')" alt="王凌头像">
-        <p>👋 嘿嘿~</p>
-      </div>
+        返回选择列表
+      </button>
     </div>
     <button
       @click="confirmSelection"
       aria-label="确认选择"
       class="confirm-button"
       :disabled="!selectedPerson"
+      v-if="selectedPerson"
     >
       确定
     </button>
@@ -38,17 +42,28 @@
 export default {
   data() {
     return {
-      selectedPerson: ''
+      selectedPerson: null,
+      digitalPeople: [
+        { name: '王博', avatar: require('@/assets/images/wangbo.jpg'), greeting: '👋 你好呀~' },
+        { name: '王凌', avatar: require('@/assets/images/wanglin.jpeg'), greeting: '👋 嘿嘿~' }
+      ]
     };
   },
   methods: {
     selectDigitalPerson(person) {
-      this.selectedPerson = person;
+      if (this.selectedPerson && this.selectedPerson.name === person.name) {
+        this.deselectDigitalPerson();
+      } else {
+        this.selectedPerson = person;
+      }
+    },
+    deselectDigitalPerson() {
+      this.selectedPerson = null;
     },
     confirmSelection() {
       // TODO: Load the selected digital person and start the stream
-      this.$emit('person-selected', this.selectedPerson);
-      this.$router.push({ path: "/livingRoom/" + this.selectedPerson })
+      this.$emit('person-selected', this.selectedPerson.name);
+      this.$router.push({ path: "/livingRoom/" + this.selectedPerson.name });
     }
   }
 };
@@ -100,13 +115,41 @@ export default {
   transition: background-color 0.3s;
 }
 
-.confirm-button:hover,
-.confirm-button:focus {
+.confirm-button:hover, .confirm-button:focus {
   background-color: darken(var(--primary-color), 10%);
 }
 
 .confirm-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.single-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.zoomed-avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.back-button {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-top: var(--padding);
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover, .back-button:focus {
+  background-color: darken(var(--primary-color), 10%);
 }
 </style>
