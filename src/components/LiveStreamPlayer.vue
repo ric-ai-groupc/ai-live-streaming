@@ -34,14 +34,14 @@ export default {
     },
   },
   watch: {
-    selectedPerson(newPerson) {
+    // selectedPerson(newPerson) {
       // TODO: Fetch live stream URL from API based on the selected person
       // Example:
       // fetch(`https://api.example.com/live-stream-url?person=${newPerson}`)
       //   .then(response => response.json())
       //   .then(data => { this.localVideoSrc = data.url; })
       //   .catch(error => console.error('Error fetching live stream URL:', error));
-    },
+    // },
   },
   methods: {
     onPlay() {

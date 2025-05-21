@@ -13,7 +13,11 @@
 <script>
 export default {
   props: {
-    personSelected: "主播"
+    personSelected: {
+      type: String,
+      required: true,
+      default: '主播'
+    }
   },
   data() {
     return {
