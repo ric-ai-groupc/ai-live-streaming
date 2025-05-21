@@ -33,14 +33,21 @@
         aria-label="生日"
         required
       />
-      <select v-model="gender" aria-label="性别" required>
+
+      <!-- 性别选项 -->
+      <label for="gender-select" aria-label="性别选择">性别</label>
+      <select id="gender-select" v-model="gender" aria-label="性别" required>
         <option value="male">男</option>
         <option value="female">女</option>
       </select>
-      <select v-model="preferredDigitalPerson" aria-label="首选数字人" required>
+
+      <!-- 首选数字人选项 -->
+      <label for="digital-person-select" aria-label="首选数字人选择">首选数字人</label>
+      <select id="digital-person-select" v-model="preferredDigitalPerson" aria-label="首选数字人" required>
         <option value="person1">王博</option>
         <option value="person2">王凌</option>
       </select>
+
       <button type="submit" aria-label="注册">注册</button>
     </form>
   </div>
@@ -72,3 +79,27 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-container h2 {
+  text-align: center;
+}
+
+.register-container input,
+.register-container select,
+.register-container button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+</style>

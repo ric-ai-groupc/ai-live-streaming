@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" aria-labelledby="app-heading">
+    <h1 id="app-heading" class="sr-only">AI直播间</h1>
     <Navbar :selectedHostInfo="selectedHostInfo" />
     <div v-if="!isLoggedIn">
       <Login v-if="!hiddenLogin" @login-success="handleLoginSuccess" />
@@ -8,10 +9,10 @@
     <div v-else class="main-content">
       <DigitalPersonSelection v-if="!selectedHostInfo" @person-selected="handlePersonSelected" />
       <div class="live-stream-chat-container" role="region" aria-labelledby="live-stream-label">
-        <LiveStreamPlayer v-if="selectedHostInfo" class="live-stream-player" id="live-stream-player" aria-label="Live Stream Player" />
+        <LiveStreamPlayer v-if="selectedHostInfo" class="live-stream-player" id="live-stream-player" aria-label="直播流播放器" />
         <div class="vertical-container" aria-labelledby="vertical-container-label">
           <ProductCard v-if="selectedHostInfo" :product="productInfo" class="product-card" />
-          <ChatBox v-if="selectedHostInfo" :person-selected="selectedHostInfo" class="chat-box-container" />
+          <ChatBox v-if="selectedHostInfo" :person-selected="selectedHostInfo" class="chat-box-container" /> <!-- ChatBox 不再固定在底部 -->
         </div>
       </div>
     </div>
@@ -48,7 +49,8 @@ export default {
       } else if (to.path === '/TA'){
         this.hiddenLogin= true;
         this.hiddenRegister= true;
-        this.selectedHostInfo=null;
+        this.isLoggedIn = true;
+        this.selectedHostInfo= ''; // TODO: 清除用户会话或从API获取新的主持人信息
       }
     }
   },
@@ -59,16 +61,17 @@ export default {
       selectedHostInfo: '',
       isLoggedIn: false,
       productInfo: {
-        image: 'https://www.vancleefarpels.com/content/dam/rcq/vca/20/82/06/9/2082069.png.transform.vca-w820-1x.png',
-        sku: 'VCARP4KO00',
-        name: 'Magic Alhambra長項鍊，1枚四葉幸運圖騰',
-        price: '¥ 73,500'
+        image: 'https://asset.swarovski.com/images/$size_2000/t_swa103/b_rgb:ffffff,c_scale,dpr_1.0,f_auto,w_580/5709951_png/idyllia-%E9%93%BE%E5%9D%A0%E5%92%8C%E8%83%B8%E9%92%88--%E6%B7%B7%E5%90%88%E5%88%87%E5%89%B2--%E5%AF%86%E9%95%B7--%E8%9D%B4%E8%9D%B6--%E6%B5%81%E5%85%89%E6%BA%A2%E5%BD%A9--%E9%95%80%E9%87%91%E8%89%B2%E8%B0%83-swarovski-5709951.png',
+        sku: 'M5709951',
+        name: 'Idyllia 链坠和胸针',
+        price: '¥ 3,800',
+        link: 'https://www.swarovski.com.cn/zh-CN/p-M5709951/Idyllia-%E9%93%BE%E5%9D%A0%E5%92%8C%E8%83%B8%E9%92%88-%E6%B7%B7%E5%90%88%E5%88%87%E5%89%B2-%E5%AF%86%E9%95%B7-%E8%9D%B4%E8%9D%B6-%E6%B5%81%E5%85%89%E6%BA%A2%E5%BD%A9-%E9%95%80%E9%87%91%E8%89%B2%E8%B0%83/?variantID=5709951'
       }
     };
   },
   methods: {
     handlePersonSelected(person) {
-      this.selectedHostInfo = person;
+      this.selectedHostInfo = person; // TODO: 根据选定的数字人从API获取产品信息
     },
     handleLoginSuccess(userInfo) {
       this.isLoggedIn = true;
@@ -83,39 +86,20 @@ export default {
   height: 100vh; /* 使整个页面高度填满屏幕 */
   display: flex;
   flex-direction: column;
+  background-image: url('@/assets/images/background3.jpg'); /* 添加背景图片 */
+  background-size: cover;
+  background-position: center;
 }
 
-.main-content {
-  display: flex;
-  flex: 1;
-  max-width: 1200px; /* 使内容区域居中 */
-  width: 100%;
-  flex-direction: column;
-  margin: 0 auto; /* 使内容区域居中 */
-}
-
-.live-stream-chat-container {
-  display: flex;
-  flex: 1;
-}
-
-.live-stream-player {
-  flex: 7; /* 调整以适应垂直容器的宽度 */
-  margin-right: var(--padding);
-}
-
-.vertical-container {
-  display: flex;
-  flex-direction: column;
-  flex: 2; /* 固定为页面宽度的20% */
-  min-height: 100%; /* 与 live-stream-player 高度保持一致 */
-}
-
-.product-card {
-  margin-bottom: var(--padding);
-}
-
-.chat-box-container {
-  flex: 1;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* 用于隐藏视觉但保持可访问性 */
+  border: 0;
 }
 </style>

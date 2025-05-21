@@ -34,14 +34,14 @@ export default {
     },
   },
   watch: {
-    // selectedPerson(newPerson) {
+    selectedPerson(newPerson) {
       // TODO: Fetch live stream URL from API based on the selected person
       // Example:
       // fetch(`https://api.example.com/live-stream-url?person=${newPerson}`)
       //   .then(response => response.json())
       //   .then(data => { this.localVideoSrc = data.url; })
       //   .catch(error => console.error('Error fetching live stream URL:', error));
-    // },
+    },
   },
   methods: {
     onPlay() {
@@ -84,6 +84,7 @@ export default {
 .live-stream-player {
   position: relative;
   width: 100%;
+  height: 100%; /* 自适应父容器的高度 */
   max-width: 800px;
   margin: 0 auto;
 }
@@ -96,7 +97,7 @@ export default {
 
 .video-element {
   width: 100%;
-  height: auto;
+  height: 100%; /* 视频元素也自适应父容器的高度 */
   display: block;
 }
 </style>

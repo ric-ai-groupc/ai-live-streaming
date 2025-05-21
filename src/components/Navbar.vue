@@ -3,7 +3,7 @@
     <div class="navbar-container">
       <img src="@/assets/logo.png" alt="AI直播Logo" class="navbar-logo">
       <button @click="handleBackClick" aria-label="返回上一页">返回</button>
-      <h1 style="color: red;">AI直播间</h1> <!-- AI直播间变成红色 -->
+      <h1 style="color: var(--primary-color);">AI直播间</h1> 
       <div>
         <span>{{ selectedHostInfo }}</span>
       </div>

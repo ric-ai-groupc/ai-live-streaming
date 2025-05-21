@@ -1,6 +1,14 @@
 <template>
   <div class="product-card" role="region" aria-labelledby="product-title">
-    <img :src="product.image" :alt="product.name" class="product-image" />
+    <!-- TODO: 获取并填充实际的产品官网链接 -->
+    <a :href="product.link || '#'"
+       target="_blank"
+       rel="noopener noreferrer"
+       @click="handleClick"
+       class="product-link"
+       aria-label="Visit the official website of the product">
+      <img :src="product.image" :alt="product.name" class="product-image" />
+    </a>
     <h2 id="product-title">{{ product.name }}</h2>
     <p>SKU: {{ product.sku }}</p>
     <p>Price: {{ product.price }}</p>
@@ -12,7 +20,19 @@ export default {
   props: {
     product: {
       type: Object,
-      required: true
+      required: true,
+      // 预期的product对象结构应包含link属性，若无则需对接后端API进行获取
+      validator: function(product) {
+        return typeof product.image === 'string' &&
+               typeof product.name === 'string' &&
+               typeof product.sku === 'string' &&
+               typeof product.price === 'string';
+      }
+    }
+  },
+  methods: {
+    handleClick() {
+      // 可以在此处添加额外的逻辑，例如记录点击行为等
     }
   }
 };
@@ -42,4 +62,8 @@ h2 {
 p {
   margin: 0.5rem 0;
 }
-</style>,
+
+.product-link {
+  text-decoration: none;
+}
+</style>
