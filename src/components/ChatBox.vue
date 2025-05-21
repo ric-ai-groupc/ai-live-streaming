@@ -1,12 +1,14 @@
 <template>
   <div class="chat-box" aria-live="polite">
-    <div class="messages">
+    <div ref="messagesContainer" class="messages">
       <div v-for="(message, index) in messages" :key="index" :class="{ system: message.type === 'system', gift: message.type === 'gift', product: message.type === 'product' }">
         <strong>{{ message.sender }}:</strong> {{ message.content }}
       </div>
     </div>
-    <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="输入弹幕...">
-    <button @click="sendMessage">发送</button>
+    <div class="input-container">
+      <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="输入弹幕...">
+      <button @click="sendMessage">发送</button>
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,11 @@ export default {
     };
   },
   mounted() {
+    this.scrollToBottom();
     this.startAutoChat();
+  },
+  updated() {
+    this.scrollToBottom();
   },
   methods: {
     sendMessage() {
@@ -43,10 +49,16 @@ export default {
     },
     startAutoChat() {
       setInterval(() => {
-        const greetings = ['你好！', '欢迎来到直播间！', '有什么问题吗？', '我们很高兴见到你！'];
+        const greetings = ['你好！', '欢迎来到直播间！', '有什么可以帮您~', '我很高兴见到你！'];
         const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
         this.addAutoMessage(randomGreeting);
       }, 5000);
+    },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const container = this.$refs.messagesContainer;
+        container.scrollTop = container.scrollHeight;
+      });
     }
   }
 };
@@ -59,12 +71,15 @@ export default {
   box-shadow: var(--box-shadow);
   padding: var(--padding);
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-box .messages {
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: var(--padding);
+  flex: 1;
 }
 
 .chat-box .messages div {
@@ -83,21 +98,28 @@ export default {
   color: #15803D;
 }
 
-.chat-box input {
-  width: calc(100% - 2 * var(--padding));
+.input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-container input {
+  width: calc(100% - 2 * var(--padding) - 60px); /* Adjusted for button width */
   padding: var(--padding);
   border: 1px solid #E5E5EA;
   border-radius: var(--border-radius);
   margin-bottom: var(--padding);
 }
 
-.chat-box button {
+.input-container button {
   background-color: var(--primary-color);
   color: #FFFFFF;
   border: none;
   padding: var(--padding);
   border-radius: var(--border-radius);
   cursor: pointer;
-  width: 100%;
+  width: 70px;
+  height: 40px;
+  align-self: center;
 }
 </style>

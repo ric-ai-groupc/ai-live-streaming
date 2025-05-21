@@ -6,10 +6,13 @@
       <Register v-if="!hiddenRegister"/>
     </div>
     <div v-else class="main-content">
-      <DigitalPersonSelection v-if=(!selectedHostInfo) @person-selected="handlePersonSelected" />
-      <div class="live-stream-chat-container">
-        <LiveStreamPlayer v-if="selectedHostInfo" class="live-stream-player" />
-        <ChatBox v-if="selectedHostInfo" :person-selected="selectedHostInfo" class="chat-box-container" />
+      <DigitalPersonSelection v-if="!selectedHostInfo" @person-selected="handlePersonSelected" />
+      <div class="live-stream-chat-container" role="region" aria-labelledby="live-stream-label">
+        <LiveStreamPlayer v-if="selectedHostInfo" class="live-stream-player" id="live-stream-player" aria-label="Live Stream Player" />
+        <div class="vertical-container" aria-labelledby="vertical-container-label">
+          <ProductCard v-if="selectedHostInfo" :product="productInfo" class="product-card" />
+          <ChatBox v-if="selectedHostInfo" :person-selected="selectedHostInfo" class="chat-box-container" />
+        </div>
       </div>
     </div>
   </div>
@@ -22,6 +25,7 @@ import LiveStreamPlayer from '@/components/LiveStreamPlayer.vue';
 import ChatBox from '@/components/ChatBox.vue';
 import Login from '@/components/Login.vue';
 import Register from '@/components/Register.vue';
+import ProductCard from '@/components/ProductCard.vue';
 
 export default {
   components: {
@@ -30,20 +34,21 @@ export default {
     LiveStreamPlayer,
     ChatBox,
     Login,
-    Register
+    Register,
+    ProductCard
   },
   watch: {
     '$route'(to, from) {
       if (to.path === '/register'){
-        this.hiddenLogin= true
-        this.hiddenRegister=false
+        this.hiddenLogin= true;
+        this.hiddenRegister=false;
       } else if ( to.path === '/login'){
-        this.hiddenLogin= false
-        this.hiddenRegister= true
+        this.hiddenLogin= false;
+        this.hiddenRegister= true;
       } else if (to.path === '/TA'){
-        this.hiddenLogin= true
-        this.hiddenRegister= true
-        this.selectedHostInfo=''
+        this.hiddenLogin= true;
+        this.hiddenRegister= true;
+        this.selectedHostInfo=null;
       }
     }
   },
@@ -52,7 +57,13 @@ export default {
       hiddenLogin: false,
       hiddenRegister: true,
       selectedHostInfo: '',
-      isLoggedIn: false
+      isLoggedIn: false,
+      productInfo: {
+        image: 'https://www.vancleefarpels.com/content/dam/rcq/vca/20/82/06/9/2082069.png.transform.vca-w820-1x.png',
+        sku: 'VCARP4KO00',
+        name: 'Magic Alhambra長項鍊，1枚四葉幸運圖騰',
+        price: '¥ 73,500'
+      }
     };
   },
   methods: {
@@ -68,6 +79,12 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  height: 100vh; /* 使整个页面高度填满屏幕 */
+  display: flex;
+  flex-direction: column;
+}
+
 .main-content {
   display: flex;
   flex: 1;
@@ -83,8 +100,19 @@ export default {
 }
 
 .live-stream-player {
-  flex: 3;
+  flex: 7; /* 调整以适应垂直容器的宽度 */
   margin-right: var(--padding);
+}
+
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+  flex: 2; /* 固定为页面宽度的20% */
+  min-height: 100%; /* 与 live-stream-player 高度保持一致 */
+}
+
+.product-card {
+  margin-bottom: var(--padding);
 }
 
 .chat-box-container {
