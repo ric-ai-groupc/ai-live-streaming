@@ -1,8 +1,10 @@
 <template>
   <div class="chat-box" aria-live="polite">
     <div ref="messagesContainer" class="messages">
-      <div v-for="(message, index) in latestMessages" :key="index" :class="{ system: message.type === 'system', gift: message.type === 'gift', product: message.type === 'product' }">
-        <strong>{{ message.sender }}:</strong> {{ message.content }}
+      <div v-for="(message, index) in latestMessages" :key="index" :class="{ system: message.type === 'system', gift: message.type === 'gift', product: message.type === 'product', audio: message.type === 'audio' }">
+        <strong>{{ message.sender }}:</strong> 
+        <span v-if="message.type !== 'audio'">{{ message.content }}</span>
+        <audio v-else controls :src="message.content"></audio>
       </div>
     </div>
     <!-- 礼物选项 -->
@@ -51,7 +53,9 @@ export default {
       currentGift: '',
       isSpeechSupported: false,
       recognition: null,
-      isListening: false
+      isListening: false,
+      mediaRecorder: null,
+      audioChunks: []
     };
   },
   computed: {
@@ -136,9 +140,27 @@ export default {
       if (this.recognition) {
         if (this.isListening) {
           this.recognition.stop();
+          this.mediaRecorder.stop();
           this.isListening = false;
         } else {
           this.recognition.start();
+          navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+              this.mediaRecorder = new MediaRecorder(stream);
+              this.mediaRecorder.ondataavailable = event => {
+                this.audioChunks.push(event.data);
+              };
+              this.mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                this.messages.push({ sender: '用户', content: audioUrl, type: 'audio' });
+                this.audioChunks = [];
+              };
+              this.mediaRecorder.start();
+            })
+            .catch(error => {
+              console.error('无法访问麦克风:', error);
+            });
           this.isListening = true;
         }
       }
@@ -203,6 +225,10 @@ export default {
 
 .chat-box .messages .product {
   color: #15803D;
+}
+
+.chat-box .messages .audio audio {
+  width: 100%;
 }
 
 .input-container {
