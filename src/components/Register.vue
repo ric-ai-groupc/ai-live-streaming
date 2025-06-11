@@ -1,4 +1,10 @@
 <template>
+  module.exports = {
+  configureWebpack: {
+    devtool: 'source-map' // 启用 source map
+  }
+}
+
   <div class="register-container" aria-labelledby="register-heading">
     <h2 id="register-heading">注册</h2>
     <form @submit.prevent="handleRegister" aria-label="注册表单">
@@ -68,7 +74,7 @@ export default {
     };
   },
   methods: {
-    sendVerificationCode() {
+    sendVerificationCode() {debugger;
       console.log(`发送验证码到 ${this.phoneNumber}`);
     },
     async handleRegister() {
