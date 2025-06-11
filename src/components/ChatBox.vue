@@ -9,8 +9,7 @@
     </div>
     <!-- 礼物选项 -->
     <div v-if="showGiftOptions" class="gift-options" role="menu" aria-label="选择礼物">
-      <button @click="sendGift('🌹')" role="menuitem">🌹</button>
-      <button @click="sendGift('❤️')" role="menuitem">❤️</button>
+  <button v-for="(gift, index) in gifts" :key="index" @click="sendGift(gift.symbol)" role="menuitem">{{ gift.symbol }}</button>
     </div>
     <div class="input-container">
       <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="输入弹幕..." />
@@ -55,7 +54,8 @@ export default {
       recognition: null,
       isListening: false,
       mediaRecorder: null,
-      audioChunks: []
+      audioChunks : [] ,
+      gifts : [] //虚拟礼物列表
     };
   },
   computed: {
@@ -68,6 +68,7 @@ export default {
     this.scrollToBottom();
     this.startAutoChat();
     this.checkSpeechSupport();
+    this.fetchGifts();
   },
   updated() {
     this.scrollToBottom();
@@ -80,6 +81,17 @@ export default {
         // TODO: Send message to backend via WebSocket
       }
     },
+    fetchGifts() {
+    // Replace with your actual API endpoint
+    fetch('/api/gifts')
+      .then(response => response.json())
+      .then(data => {
+        this.gifts = data;
+      })
+      .catch(error => {
+        console.error('Error fetching gifts:', error);
+      });
+  },
     sendGift(giftSymbol) {
       this.currentGift = giftSymbol;
       this.showGiftAnimation = true;
