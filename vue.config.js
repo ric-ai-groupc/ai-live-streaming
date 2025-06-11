@@ -1,8 +1,15 @@
 const { defineConfig } = require('@vue/cli-service')
+const path = require('path') // Add this line to import the path module
+
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   configureWebpack: {
-    devtool: 'source-map' // 启用 source map，便于调试 .vue 文件
+    devtool: 'source-map',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src')
+      }
+    }
   }
 })
