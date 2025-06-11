@@ -39,15 +39,27 @@
 </template>
 
 <script>
+import apiClient from '@/utils/apiClient';
 export default {
   data() {
     return {
       selectedPerson: null,
-      digitalPeople: [
-        { name: '王博', avatar: require('@/assets/images/wangbo.jpg'), greeting: '👋 你好呀~' },
-        { name: '王凌', avatar: require('@/assets/images/wanglin.jpeg'), greeting: '👋 嘿嘿~' }
-      ]
+      digitalPeople: []
     };
+  },
+  async created() {
+    try {
+      const response = await apiClient.get('/api/ai-characters');
+      if (!response.ok) throw new Error('Failed to fetch AI characters');
+      const paginatedData = await response.json();
+      this.digitalPeople = paginatedData.data.map(item => ({
+        name: item.name,
+        avatar: item.imageUrl,
+        greeting: `👋 ${item.name} 你好呀~`
+      }));
+    } catch (error) {
+      console.error('Error fetching AI characters:', error);
+    }
   },
   methods: {
     selectDigitalPerson(person) {
@@ -61,7 +73,6 @@ export default {
       this.selectedPerson = null;
     },
     confirmSelection() {
-      // TODO: Load the selected digital person and start the stream
       this.$emit('person-selected', this.selectedPerson.name);
       this.$router.push({ path: "/livingRoom/" + this.selectedPerson.name });
     }
