@@ -1,10 +1,4 @@
 <template>
-  module.exports = {
-  configureWebpack: {
-    devtool: 'source-map' // 启用 source map
-  }
-}
-
   <div class="register-container" aria-labelledby="register-heading">
     <h2 id="register-heading">注册</h2>
     <form @submit.prevent="handleRegister" aria-label="注册表单">
