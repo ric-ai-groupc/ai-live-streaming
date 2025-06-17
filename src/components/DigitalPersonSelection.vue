@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import apiClient from '@/utils/apiClient';
+import videoStreamApiClient from '@/utils/apiClient';
 export default {
   data() {
     return {
@@ -49,7 +49,7 @@ export default {
   },
   async created() {
     try {
-      const response = await apiClient.get('/api/ai-characters');
+      const response = await videoStreamApiClient.get('/api/ai-characters');
       if (!response.ok) throw new Error('Failed to fetch AI characters');
       const paginatedData = await response.json();
       this.digitalPeople = paginatedData.data.map(item => ({
