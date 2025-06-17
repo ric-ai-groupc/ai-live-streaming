@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import videoStreamApiClient from '@/utils/apiClient';
+import {videoStreamApiClient} from '@/utils/apiClient';
 export default {
   data() {
     return {

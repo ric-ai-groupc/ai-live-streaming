@@ -27,7 +27,7 @@ jobs:
         continue-on-error: true
 
       - name: Compile
-        run: npm run build:prd
+        run: npm run build
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
