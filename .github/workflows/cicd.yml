@@ -50,8 +50,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.IMAGE_FULL_NAME }}:latest
-            ${{ secrets.IMAGE_FULL_NAME }}:${{ steps.short-sha.outputs.sha }}
+            ghcr.io/ric-ai-groupc/${{ github.event.repository.name }}:latest
+            ghcr.io/ric-ai-groupc/${{ github.event.repository.name }}:${{ steps.short-sha.outputs.sha }}
 
       - name: SSH to server and update
         uses: appleboy/ssh-action@v1
@@ -61,7 +61,41 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            docker pull ${{ secrets.IMAGE_FULL_NAME }}:latest
-            docker stop ai-live-streaming || true
-            docker rm ai-live-streaming || true
-            docker run -d --name ai-live-streaming -p 80:80 ${{ secrets.IMAGE_FULL_NAME }}:latest
+            cd /root
+
+            check_service_status() {
+                local service_name="$1"
+                
+                local service_info=$(docker compose ps --format json | jq -r --arg service "$service_name" '
+                    select(.Service == $service) | {
+                        state: .State,
+                        status: .Status
+                    }
+                ')
+                
+                if [ -z "$service_info" ]; then
+                    echo "Service '$service_name' not found"
+                    return 1
+                fi
+                
+                local state=$(echo "$service_info" | jq -r '.state')
+                local status=$(echo "$service_info" | jq -r '.status')
+                
+                if [ "$state" = "running" ]; then
+                    echo "Service '$service_name' is running (Status: $status)"
+                    return 0
+                else
+                    echo "Service '$service_name' is not running (State: $state, Status: $status)"
+                    return 1
+                fi
+            }
+
+            docker compose pull ${{ github.event.repository.name }}
+            if check_service_status "${{ github.event.repository.name }}"; then
+                echo "Service is healthy - proceeding with restart"
+                docker rm ${{ github.event.repository.name }} -f
+                docker compose up -d ${{ github.event.repository.name }}
+            else
+                echo "Service is not running - starting it up"
+                docker compose up -d ${{ github.event.repository.name }}
+            fi

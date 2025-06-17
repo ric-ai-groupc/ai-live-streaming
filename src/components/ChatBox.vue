@@ -9,7 +9,7 @@
     </div>
     <!-- 礼物选项 -->
     <div v-if="showGiftOptions" class="gift-options" role="menu" aria-label="选择礼物">
-  <button v-for="(gift, index) in gifts" :key="index" @click="sendGift(gift.symbol)" role="menuitem">{{ gift.symbol }}</button>
+      <button v-for="(gift, index) in gifts" :key="index" @click="sendGift(gift.symbol)" role="menuitem">{{ gift.symbol }}</button>
     </div>
     <div class="input-container">
       <input type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="输入弹幕..." />

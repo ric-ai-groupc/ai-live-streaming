@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -66,15 +68,34 @@ export default {
     };
   },
   methods: {
-    sendVerificationCode() {
-      // TODO: 实现发送验证码逻辑
+    sendVerificationCode() {debugger;
       console.log(`发送验证码到 ${this.phoneNumber}`);
     },
-    handleRegister() {
-      // TODO: 实现注册逻辑
-      const newUser = { /* ... */ }; // 假设这是从API返回的新用户信息
-      console.log('注册成功', newUser);
-      this.$router.push({ name: 'TA' });
+    async handleRegister() {
+      try {
+        const response = await axios.post('http://localhost:8080/register', {
+          phone: this.phoneNumber,
+          name: this.name,
+          birth_date: this.birthdate,
+          gender: this.gender,
+          favorite_digital_human: this.preferredDigitalPerson
+        });
+
+        if (response.data.code === 0) {
+          console.log('注册成功:', response.data.data);
+          this.$router.push({ name: 'TA' });
+        } else {
+          alert(response.data.message || '注册失败');
+        }
+      } catch (error) {
+        let message = '网络错误，请稍后再试';
+
+        if (error.response && error.response.data) {
+          message = error.response.data.message;
+        }
+
+        alert(message);
+      }
     }
   }
 };
