@@ -50,7 +50,7 @@ export default {
   async created() {
     try {
       console.log(videoStreamApiClient.defaults.baseURL)
-      const response = await videoStreamApiClient.get('/api/ai-characters');
+      const response = await videoStreamApiClient.get('/api/video-stream/ai-characters');
       if (!response.ok) throw new Error('Failed to fetch AI characters');
       const paginatedData = await response.json();
       this.digitalPeople = paginatedData.data.map(item => ({
